@@ -258,15 +258,6 @@ async function getReporte (req, res){
             }
         );
 
-        var asistentes = await dbManager.InteresadoEvento.findAll(
-            {
-                where: {
-                    idEvento: idEvento,
-                    asistencia: 1
-                }
-            }
-        );
-
         const reporteEvento = {
             Nombre: evento.nombreEvento,
             FechaDeInicio: evento.fechaInicio,
@@ -276,7 +267,6 @@ async function getReporte (req, res){
             EncuestaEvento: evento.encuestaEvento,
             ResultadosEncuesta: evento.resultadosEncuesta,
             NumeroDeRegistrados: registrados.length,
-            NumeroDeAsistentes: asistentes.length,
             OrganoInstitucional: organoInstitucional.nombreOrganoInstitucional,
             Escuela: escuela.nombreEscuela,
             Programa: programa.nombrePrograma,
