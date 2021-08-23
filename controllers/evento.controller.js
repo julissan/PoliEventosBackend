@@ -218,7 +218,7 @@ async function getReporte (req, res){
             }
         );
         
-        const programa = await dbManager.Programa.findOne(
+        var programa = await dbManager.Programa.findOne(
             {
                 where: {
                     idPrograma: evento.idPrograma
@@ -226,13 +226,25 @@ async function getReporte (req, res){
             }
         );
 
-        const escuela = await dbManager.Escuela.findOne(
+        if(!programa){
+            var nombrePrograma = "";
+        }else{
+            var nombrePrograma = programa.nombrePrograma;
+        }
+
+        var escuela = await dbManager.Escuela.findOne(
             {
                 where: {
                     idEscuela: evento.idEscuela
                 }
             }
         );
+
+        if(!escuela){
+            var nombreEscuela = "";
+        }else{
+            var nombreEscuela = escuela.nombreEscuela;
+        }
 
         const organoInstitucional = await dbManager.OrganoInstitucional.findOne(
             {
@@ -268,8 +280,8 @@ async function getReporte (req, res){
             ResultadosEncuesta: evento.resultadosEncuesta,
             NumeroDeRegistrados: registrados.length,
             OrganoInstitucional: organoInstitucional.nombreOrganoInstitucional,
-            Escuela: escuela.nombreEscuela,
-            Programa: programa.nombrePrograma,
+            Escuela: nombreEscuela,
+            Programa: nombrePrograma,
             CreadoPor: organizadorEvento.nombreOrganizadorDirectivo
         }
 
