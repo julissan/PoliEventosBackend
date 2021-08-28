@@ -201,7 +201,7 @@ async function iniciarSesion(req, res){
         );
 
         if(!correoValido) {
-            res.status(400).send({
+            res.send({
                 status: "400",
                 response: "Correo incorrecto"
             });
@@ -217,12 +217,12 @@ async function iniciarSesion(req, res){
             );
 
             if(!contraseñaValida) {
-                res.status(400).send({
+                res.send({
                     status: "400",
                     response: "Contraseña incorrecta"
                 });
             }else{
-                res.status(200).send({
+                res.send({
                     status: "200",
                     response: "Se ha iniciado sesión satisfactoriamente",
                     esOrganizador: contraseñaValida.esOrganizador,
@@ -232,7 +232,7 @@ async function iniciarSesion(req, res){
         }
 
     }catch(error){
-        res.status(500).send(
+        res.send(
             {
                 status: "500",
                 response: "Error en servidor al intenar iniciar sesión"
