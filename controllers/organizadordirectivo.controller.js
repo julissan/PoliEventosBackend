@@ -224,7 +224,9 @@ async function iniciarSesion(req, res){
             }else{
                 res.status(200).send({
                     status: "200",
-                    response: "Se ha iniciado sesión satisfactoriamente"
+                    response: "Se ha iniciado sesión satisfactoriamente",
+                    esOrganizador: contraseñaValida.esOrganizador,
+                    esDirectivo: contraseñaValida.esDirectivo
                 });
             }
         }
