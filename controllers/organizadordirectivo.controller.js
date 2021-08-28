@@ -223,7 +223,7 @@ async function iniciarSesion(req, res){
                 });
             }else{
                 res.status(200).send({
-                    status: "400",
+                    status: "200",
                     response: "Se ha iniciado sesión satisfactoriamente"
                 });
             }
