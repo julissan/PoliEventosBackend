@@ -201,11 +201,9 @@ async function iniciarSesion(req, res){
         );
 
         if(!correoValido) {
-            res.send(
-                {
-                    message:"Correo incorrecto"
-                }
-            );
+            res.status(400).send({
+                message: "Correo incorrecto"
+            });
         }else{
             
             const contraseñaValida = await dbManager.OrganizadorDirectivo.findOne(
@@ -218,17 +216,13 @@ async function iniciarSesion(req, res){
             );
 
             if(!contraseñaValida) {
-                res.send(
-                    {
-                        message:"Contraseña incorrecta"
-                    }
-                );
+                res.status(400).send({
+                    message: "Contraseña incorrecta"
+                });
             }else{
-                res.send(
-                    {
-                        message:"Se ha iniciado sesión satisfactoriamente"
-                    }
-                );
+                res.status(200).send({
+                    message: "Se ha iniciado sesión satisfactoriamente"
+                });
             }
         }
 
