@@ -2,7 +2,7 @@ const { OrganizadorDirectivo } = require("../database/db.manager");
 const dbManager = require("../database/db.manager");
 
 // Juan David Lis
-/**
+/***
  * Crea un organizador/directivo en la base de datos y lo retorna
  * @param {*} req : objeto json con atributos para nuevo organizador/directivo
  * @param {*} res : crea la consultar sql e inserta el nuevo registro, adicional retorna el objeto creado
