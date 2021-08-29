@@ -281,10 +281,7 @@ async function getReporte (req, res){
             CreadoPor: organizadorEvento.nombreOrganizadorDirectivo
         }
 
-        res.send({
-            status: "200",
-            response: reporteEvento
-        });
+        res.json(reporteEvento).data;
     } catch (error) {
         res.send({
             status: "500",
