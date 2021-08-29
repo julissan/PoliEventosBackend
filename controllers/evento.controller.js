@@ -14,8 +14,9 @@ function crearEvento (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -45,13 +46,17 @@ function crearEvento (req, res){
          */
         dbManager.Evento.create(newEventoObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "El evento ya existe"
+                res.send({
+                    status: "400",
+                    response: "El evento ya existe"
                 });
             }
         );
@@ -69,17 +74,15 @@ async function getEventos(req, res){
     try {
 
         const eventos = await dbManager.Evento.findAll();
-        res.json(
-            {
-                data: eventos
-            }
-        );
+        res.send({
+            status: "200",
+            response: eventos
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar eventos"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar eventos"
+        });
     }
 }
 
@@ -102,13 +105,15 @@ async function getEventoById(req, res){
                 }
             }
         );
-        res.json(evento);
+        res.send({
+            status: "200",
+            response: evento
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar evento"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar evento"
+        });
     }
 }
 
@@ -132,11 +137,10 @@ async function deleteEventoById(req, res){
         );
 
         if(!evento) {
-            res.send(
-                {
-                    message:"El evento no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "El evento no existe"
+            });
         }else{
 
             await Evento.destroy({
@@ -144,21 +148,19 @@ async function deleteEventoById(req, res){
                   idEvento: idEvento
                 }
             });
-    
-            res.send(
-                {
-                    message:"Evento Eliminado"
-                }
-            );
+
+            res.send({
+                status: "200",
+                response: "Evento Eliminado"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar evento"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar evento"
+        });
     }
 
 }
@@ -193,15 +195,15 @@ async function updateEvento (req, res){
     }
 
     dbManager.Evento.update(updateEvento, {where: {idEvento: idEvento}}).then(result => {
-        res.status(200).json({
-            message: "Evento actualizado satisfactoriamente",
-            post: result
-        })
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar el evento",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar el evento"
+        });
     })
     
 }
@@ -285,17 +287,15 @@ async function getReporte (req, res){
             CreadoPor: organizadorEvento.nombreOrganizadorDirectivo
         }
 
-        res.json(
-            {
-                data: reporteEvento
-            }
-        );
+        res.send({
+            status: "200",
+            response: reporteEvento
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error al generar el reporte"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error al generar el reporte"
+        });
     }
 }
 
@@ -312,17 +312,15 @@ async function getEventoByOrgano(req, res){
                 }
             }
         );
-        res.json(
-            {
-                data: eventos
-            }
-        );
+        res.send({
+            status: "200",
+            response: eventos
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar eventos por organo institucional"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar eventos por organo institucional"
+        });
     }
 }
 
@@ -339,17 +337,15 @@ async function getEventoByEscuela(req, res){
                 }
             }
         );
-        res.json(
-            {
-                data: eventos
-            }
-        );
+        res.send({
+            status: "200",
+            response: eventos
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar eventos por escuela"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar eventos por escuela"
+        });
     }
 }
 
@@ -366,17 +362,16 @@ async function getEventoByPrograma(req, res){
                 }
             }
         );
-        res.json(
-            {
-                data: eventos
-            }
-        );
+        res.send({
+            status: "200",
+            response: eventos
+        });
+        
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar eventos por programa"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar eventos por programa"
+        });
     }
 }
 
@@ -392,17 +387,15 @@ async function getEventoByYear(req, res){
                 }
             }
         );
-        res.json(
-            {
-                data: eventos
-            }
-        );
+        res.send({
+            status: "200",
+            response: eventos
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar eventos por año"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar eventos por año"
+        });
     }
 }
 
@@ -437,18 +430,15 @@ async function getInvitadosByEvento(req, res){
                 }
             }
         );
-
-        res.json(
-            {
-                data: invitados
-            }
-        );
+        res.send({
+            status: "200",
+            response: invitados
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar invitados"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar invitados"
+        });
     }
 }
 
@@ -484,17 +474,15 @@ async function getInteresadosByEvento(req, res){
             }
         );
 
-        res.json(
-            {
-                data: interesados
-            }
-        );
+        res.send({
+            status: "200",
+            response: interesados
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar interesados"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar interesados"
+        });
     }
 }
 
@@ -530,17 +518,15 @@ async function getUbicacionesByEvento(req, res){
             }
         );
 
-        res.json(
-            {
-                data: ubicaciones
-            }
-        );
+        res.send({
+            status: "200",
+            response: ubicaciones
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar ubicaciones"
-            }
-        );
+        res.send({
+            status: "500",
+            response:  "Error en servidor al listar ubicaciones"
+        });
     }
 }
 

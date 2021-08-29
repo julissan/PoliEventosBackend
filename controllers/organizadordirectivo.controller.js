@@ -13,8 +13,9 @@ function crearOrganizadorDirectivo (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -36,13 +37,17 @@ function crearOrganizadorDirectivo (req, res){
          */
         dbManager.OrganizadorDirectivo.create(newOrganizadorDirectivoObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "El organizador/directivo ya existe"
+                res.send({
+                    status: "400",
+                    response: "El organizador/directivo ya existe"
                 });
             }
         );      
@@ -60,17 +65,15 @@ async function getOrganizadoresDirectivos(req, res){
     try {
 
         const organizadoresDirectivos = await dbManager.OrganizadorDirectivo.findAll();
-        res.json(
-            {
-                data: organizadoresDirectivos
-            }
-        );
+        res.send({
+            status: "200",
+            response: organizadoresDirectivos 
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar organizadores/directivos"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar organizadores/directivos"
+        });
     }
 }
 
@@ -93,13 +96,15 @@ async function getOrganizadorDirectivoById(req, res){
                 }
             }
         );
-        res.json(organizadorDirectivo);
+        res.send({
+            status: "200",
+            response: organizadorDirectivo
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar organizador/directivo"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar organizador/directivo"
+        });
     }
 }
 
@@ -123,11 +128,10 @@ async function deleteOrganizadorDirectivoById(req, res){
         );
 
         if(!organizadorDirectivo) {
-            res.send(
-                {
-                    message:"El organizador/directivo no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "El organizador/directivo no existe"
+            });
         }else{
 
             await OrganizadorDirectivo.destroy({
@@ -136,20 +140,18 @@ async function deleteOrganizadorDirectivoById(req, res){
                 }
             });
     
-            res.send(
-                {
-                    message:"Organizador/Directivo Eliminado"
-                }
-            );
+            res.send({
+                status: "200",
+                response:"Organizador/Directivo Eliminado"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar organizador/directivo"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar organizador/directivo"
+        });
     }
 
 }
@@ -176,14 +178,14 @@ async function updateOrganizadorDirectivo (req, res){
     }
 
     dbManager.OrganizadorDirectivo.update(updateOrganizadorDirectivo, {where: {idOrganizadorDirectivo: idOrganizadorDirectivo}}).then(result => {
-        res.status(200).json({
-            message: "Organizador/Directivo actualizada satisfactoriamente",
-            post: result
+        res.send({
+            status: "200",
+            response: result
         })
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar el organizador/directivo",
-            error: result
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar el organizador/directivo"
         })
     })
     

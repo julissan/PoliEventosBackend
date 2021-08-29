@@ -13,8 +13,9 @@ function crearInvitadoEvento (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -32,13 +33,17 @@ function crearInvitadoEvento (req, res){
          */
         dbManager.InvitadoEvento.create(newInvitadoEventoObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "El invitadoevento ya existe"
+                res.send({
+                    status: "400",
+                    response: "El invitadoevento ya existe"
                 });
             }
         );
@@ -56,17 +61,15 @@ async function getInvitadosEventos(req, res){
     try {
 
         const invitadoseventos = await dbManager.InvitadoEvento.findAll();
-        res.json(
-            {
-                data: invitadoseventos
-            }
-        );
+        res.send({
+            status: "200",
+            response: invitadoseventos
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar invitadoseventos"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar invitadoseventos"
+        });
     }
 }
 
@@ -89,13 +92,15 @@ async function getInvitadoEventoById(req, res){
                 }
             }
         );
-        res.json(invitadoevento);
+        res.send({
+            status: "200",
+            response: invitadoevento
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar invitadoevento"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar invitadoevento"
+        });
     }
 }
 
@@ -119,11 +124,10 @@ async function deleteInvitadoEventoById(req, res){
         );
 
         if(!invitadoevento) {
-            res.send(
-                {
-                    message:"El invitadoevento no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "El invitadoevento no existe"
+            });
         }else{
 
             await InvitadoEvento.destroy({
@@ -132,20 +136,18 @@ async function deleteInvitadoEventoById(req, res){
                 }
             });
     
-            res.send(
-                {
-                    message:"Invitadoevento Eliminado"
-                }
-            );
+            res.send({
+                status: "200",
+                response: "Invitadoevento Eliminado"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar invitadoevento"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar invitadoevento"
+        });
     }
 
 }
@@ -168,15 +170,15 @@ async function updateInvitadoEvento (req, res){
     }
 
     dbManager.InvitadoEvento.update(updateInvitadoEvento, {where: {idInvitadoEvento: idInvitadoEvento}}).then(result => {
-        res.status(200).json({
-            message: "Invitadoevento actualizado satisfactoriamente",
-            post: result
-        })
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar el invitadoevento",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar el invitadoevento"
+        });
     })
     
 }

@@ -13,8 +13,9 @@ function crearInteresadoEvento (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -32,13 +33,17 @@ function crearInteresadoEvento (req, res){
          */
         dbManager.InteresadoEvento.create(newInteresadoEventoObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "El interesadoevento ya existe"
+                res.send({
+                    status: "400",
+                    response: "El interesadoevento ya existe"
                 });
             }
         );
@@ -56,17 +61,15 @@ async function getInteresadosEventos(req, res){
     try {
 
         const interesadoseventos = await dbManager.InteresadoEvento.findAll();
-        res.json(
-            {
-                data: interesadoseventos
-            }
-        );
+        res.send({
+            status: "200",
+            response: interesadoseventos
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar interesadoseventos"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar interesadoseventos"
+        });
     }
 }
 
@@ -89,13 +92,15 @@ async function getInteresadoEventoById(req, res){
                 }
             }
         );
-        res.json(interesadoevento);
+        res.send({
+            status: "200",
+            response: interesadoevento
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar interesadoevento"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar interesadoevento"
+        });
     }
 }
 
@@ -119,11 +124,10 @@ async function deleteInteresadoEventoById(req, res){
         );
 
         if(!interesadoevento) {
-            res.send(
-                {
-                    message:"El interesadoevento no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "El interesadoevento no existe"
+            });
         }else{
 
             await InteresadoEvento.destroy({
@@ -131,21 +135,18 @@ async function deleteInteresadoEventoById(req, res){
                   idInteresadoEvento: idInteresadoEvento
                 }
             });
-    
-            res.send(
-                {
-                    message:"Interesadoevento Eliminado"
-                }
-            );
+            res.send({
+                status: "200",
+                response: "Interesadoevento Eliminado"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar interesadoevento"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar interesadoevento"
+        });
     }
 
 }
@@ -168,15 +169,15 @@ async function updateInteresadoEvento (req, res){
     }
 
     dbManager.InteresadoEvento.update(updateInteresadoEvento, {where: {idInteresadoEvento: idInteresadoEvento}}).then(result => {
-        res.status(200).json({
-            message: "InteresadoEvento actualizado satisfactoriamente",
-            post: result
-        })
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar el interesadoevento",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar el interesadoevento"
+        });
     })
     
 }

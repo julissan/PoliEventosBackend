@@ -13,8 +13,9 @@ function crearUbicacion (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -32,13 +33,17 @@ function crearUbicacion (req, res){
          */
         dbManager.Ubicacion.create(newUbicacionObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "La ubicacion ya existe"
+                res.send({
+                    status: "400",
+                    response: "La ubicacion ya existe"
                 });
             }
         );
@@ -56,17 +61,15 @@ async function getUbicaciones(req, res){
     try {
 
         const ubicaciones = await dbManager.Ubicacion.findAll();
-        res.json(
-            {
-                data: ubicaciones
-            }
-        );
+        res.send({
+            status: "200",
+            response: ubicaciones
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar ubicaciones"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar ubicaciones"
+        });
     }
 }
 
@@ -89,13 +92,15 @@ async function getUbicacionById(req, res){
                 }
             }
         );
-        res.json(ubicacion);
+        res.send({
+            status: "200",
+            response: ubicacion
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar ubicacion"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar ubicacion"
+        });
     }
 }
 
@@ -119,11 +124,10 @@ async function deleteUbicacionById(req, res){
         );
 
         if(!ubicacion) {
-            res.send(
-                {
-                    message:"La ubicacion no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "La ubicacion no existe"
+            });
         }else{
 
             await Ubicacion.destroy({
@@ -131,21 +135,20 @@ async function deleteUbicacionById(req, res){
                   idUbicacion: idUbicacion
                 }
             });
-    
-            res.send(
-                {
-                    message:"Ubicacion Eliminada"
-                }
-            );
+
+            res.send({
+                status: "200",
+                response: "Ubicacion Eliminada"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar ubicacion"
-            }
-        );
+
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar ubicacion"
+        });
     }
 
 }
@@ -168,15 +171,16 @@ async function updateUbicacion (req, res){
     }
 
     dbManager.Ubicacion.update(updateUbicacion, {where: {idUbicacion: idUbicacion}}).then(result => {
-        res.status(200).json({
-            message: "Ubicacion actualizada satisfactoriamente",
-            post: result
-        })
+
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar la ubicacion",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar la ubicacion"
+        });
     })
     
 }

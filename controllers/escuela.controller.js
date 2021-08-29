@@ -13,8 +13,9 @@ function crearEscuela (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -31,13 +32,17 @@ function crearEscuela (req, res){
          */
         dbManager.Escuela.create(newEscuelaObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "La escuela ya existe"
+                res.send({
+                    status: "400",
+                    response: "La escuela ya existe"
                 });
             }
         );
@@ -55,17 +60,15 @@ async function getEscuelas(req, res){
     try {
 
         const escuelas = await dbManager.Escuela.findAll();
-        res.json(
-            {
-                data: escuelas
-            }
-        );
+        res.send({
+            status: "200",
+            response: escuelas
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar escuelas"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar escuelas"
+        });
     }
 }
 
@@ -88,13 +91,15 @@ async function getEscuelaById(req, res){
                 }
             }
         );
-        res.json(escuela);
+        res.send({
+            status: "200",
+            response: escuela
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar escuela"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar escuela"
+        });
     }
 }
 
@@ -118,11 +123,10 @@ async function deleteEscuelaById(req, res){
         );
 
         if(!escuela) {
-            res.send(
-                {
-                    message:"La escuela no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "La escuela no existe"
+            });
         }else{
 
             await Escuela.destroy({
@@ -130,21 +134,21 @@ async function deleteEscuelaById(req, res){
                   idEscuela: idEscuela
                 }
             });
-    
-            res.send(
-                {
-                    message:"Escuela Eliminada"
-                }
-            );
+
+            res.send({
+                status: "200",
+                response: "Escuela Eliminada"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar escuela"
-            }
-        );
+
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar escuela"
+        });
+        
     }
 
 }
@@ -166,15 +170,15 @@ async function updateEscuela (req, res){
     }
 
     dbManager.Escuela.update(updateEscuela, {where: {idEscuela: idEscuela}}).then(result => {
-        res.status(200).json({
-            message: "Escuela actualizada satisfactoriamente",
-            post: result
-        })
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar la escuela",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar la escuela"
+        });
     })
     
 }

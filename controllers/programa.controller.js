@@ -13,8 +13,9 @@ function crearPrograma (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -31,13 +32,17 @@ function crearPrograma (req, res){
          */
         dbManager.Programa.create(newProgramaObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "El programa ya existe"
+                res.send({
+                    status: "400",
+                    response: "El programa ya existe"
                 });
             }
         );
@@ -55,17 +60,15 @@ async function getProgramas(req, res){
     try {
 
         const programas = await dbManager.Programa.findAll();
-        res.json(
-            {
-                data: programas
-            }
-        );
+        res.send({
+            status: "200",
+            response: programas
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar programas"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar programas"
+        });
     }
 }
 
@@ -88,13 +91,15 @@ async function getProgramaById(req, res){
                 }
             }
         );
-        res.json(programa);
+        res.send({
+            status: "200",
+            response: programa
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar programa"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar programa"
+        });
     }
 }
 
@@ -118,11 +123,10 @@ async function deleteProgramaById(req, res){
         );
 
         if(!programa) {
-            res.send(
-                {
-                    message:"El programa no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "El programa no existe"
+            });
         }else{
 
             await Programa.destroy({
@@ -130,21 +134,17 @@ async function deleteProgramaById(req, res){
                   idPrograma: idPrograma
                 }
             });
-    
-            res.send(
-                {
-                    message:"Programa Eliminado"
-                }
-            );
-
+            res.send({
+                status: "200",
+                response: "Programa Eliminado"
+            });
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar programa"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar programa"
+        });
     }
 
 }
@@ -167,15 +167,15 @@ async function updatePrograma (req, res){
     }
 
     dbManager.Programa.update(updatePrograma, {where: {idPrograma: idPrograma}}).then(result => {
-        res.status(200).json({
-            message: "Programa actualizado satisfactoriamente",
-            post: result
-        })
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar el programa",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar el programa"
+        });
     })
     
 }

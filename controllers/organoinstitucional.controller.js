@@ -13,8 +13,9 @@ function crearOrganoInstitucional (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -31,13 +32,17 @@ function crearOrganoInstitucional (req, res){
          */
         dbManager.OrganoInstitucional.create(newOrganoInstitucionalObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "El organo institucional ya existe"
+                res.send({
+                    status: "400",
+                    response: "El organo institucional ya existe"
                 });
             }
         );
@@ -55,17 +60,15 @@ async function getOrganosInstitucionales(req, res){
     try {
 
         const organosInstitucionales = await dbManager.OrganoInstitucional.findAll();
-        res.json(
-            {
-                data: organosInstitucionales
-            }
-        );
+        res.send({
+            status: "200",
+            response: organosInstitucionales
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar organos institucionales"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar organos institucionales"
+        });
     }
 }
 
@@ -88,13 +91,15 @@ async function getOrganoInstitucionalById(req, res){
                 }
             }
         );
-        res.json(organoInstitucional);
+        res.send({
+            status: "200",
+            response: organoInstitucional
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar organo institucional"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar organo institucional"
+        });
     }
 }
 
@@ -118,11 +123,10 @@ async function deleteOrganoInstitucionalById(req, res){
         );
 
         if(!organoInstitucional) {
-            res.send(
-                {
-                    message:"El organo institucional no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "El organo institucional no existe"
+            });
         }else{
 
             await OrganoInstitucional.destroy({
@@ -130,21 +134,21 @@ async function deleteOrganoInstitucionalById(req, res){
                   idOrganoInstitucional: idOrganoInstitucional
                 }
             });
-    
-            res.send(
-                {
-                    message:"Organo Institucional Eliminado"
-                }
-            );
+
+            res.send({
+                status: "200",
+                response: "Organo Institucional Eliminado"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar organo institucional"
-            }
-        );
+
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar organo institucional"
+        });
+
     }
 
 }
@@ -166,15 +170,15 @@ async function updateOrganoInstitucional (req, res){
     }
 
     dbManager.OrganoInstitucional.update(updateOrganoInstitucional, {where: {idOrganoInstitucional: idOrganoInstitucional}}).then(result => {
-        res.status(200).json({
-            message: "Organo institucional actualizado satisfactoriamente",
-            post: result
-        })
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar el organo institucional",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar el organo institucional"
+        });
     })
     
 }

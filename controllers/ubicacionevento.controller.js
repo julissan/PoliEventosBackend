@@ -13,8 +13,9 @@ function crearUbicacionEvento (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -32,13 +33,17 @@ function crearUbicacionEvento (req, res){
          */
         dbManager.UbicacionEvento.create(newUbicacionEventoObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "La ubicacionevento ya existe"
+                res.send({
+                    status: "400",
+                    response: "La ubicacionevento ya existe"
                 });
             }
         );
@@ -56,17 +61,15 @@ async function getUbicacionesEventos(req, res){
     try {
 
         const ubicacioneseventos = await dbManager.UbicacionEvento.findAll();
-        res.json(
-            {
-                data: ubicacioneseventos
-            }
-        );
+        res.send({
+            status: "200",
+            response: ubicacioneseventos
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar ubicacioneseventos"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar ubicacioneseventos"
+        });
     }
 }
 
@@ -89,13 +92,15 @@ async function getUbicacionEventoById(req, res){
                 }
             }
         );
-        res.json(ubicacionevento);
+        res.send({
+            status: "200",
+            response: ubicacionevento
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar ubicacionevento"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar ubicacionevento"
+        });
     }
 }
 
@@ -119,11 +124,10 @@ async function deleteUbicacionEventoById(req, res){
         );
 
         if(!ubicacionevento) {
-            res.send(
-                {
-                    message:"La ubicacionevento no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "La ubicacionevento no existe"
+            });
         }else{
 
             await UbicacionEvento.destroy({
@@ -132,20 +136,18 @@ async function deleteUbicacionEventoById(req, res){
                 }
             });
     
-            res.send(
-                {
-                    message:"ubicacionevento Eliminada"
-                }
-            );
+            res.send({
+                status: "200",
+                response: "ubicacionevento Eliminada"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar ubicacionevento"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar ubicacionevento"
+        });
     }
 
 }
@@ -168,15 +170,15 @@ async function updateUbicacionEvento (req, res){
     }
 
     dbManager.UbicacionEvento.update(updateUbicacionEvento, {where: {idUbicacionEvento: idUbicacionEvento}}).then(result => {
-        res.status(200).json({
-            message: "UbicacionEvento actualizada satisfactoriamente",
-            post: result
-        })
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar la ubicacionevento",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar la ubicacionevento"
+        });
     })
     
 }

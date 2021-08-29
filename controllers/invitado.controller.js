@@ -13,8 +13,9 @@ function crearInvitado (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -34,13 +35,17 @@ function crearInvitado (req, res){
          */
         dbManager.Invitado.create(newInvitadoObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "El invitado ya existe"
+                res.send({
+                    status: "400",
+                    response: "El invitado ya existe"
                 });
             }
         );
@@ -58,17 +63,15 @@ async function getInvitados(req, res){
     try {
 
         const invitados = await dbManager.Invitado.findAll();
-        res.json(
-            {
-                data: invitados
-            }
-        );
+        res.send({
+            status: "200",
+            response: invitados
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar invitados"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar invitados"
+        });
     }
 }
 
@@ -91,13 +94,15 @@ async function getInvitadoById(req, res){
                 }
             }
         );
-        res.json(invitado);
+        res.send({
+            status: "200",
+            response: invitado
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar invitado"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar invitado"
+        });
     }
 }
 
@@ -121,11 +126,10 @@ async function deleteInvitadoById(req, res){
         );
 
         if(!invitado) {
-            res.send(
-                {
-                    message:"El invitado no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "El invitado no existe"
+            });
         }else{
 
             await Invitado.destroy({
@@ -133,21 +137,17 @@ async function deleteInvitadoById(req, res){
                   idInvitado: idInvitado
                 }
             });
-    
-            res.send(
-                {
-                    message:"Invitado Eliminado"
-                }
-            );
-
+            res.send({
+                status: "200",
+                response: "Invitado Eliminado"
+            });
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar invitado"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar invitado"
+        });
     }
 
 }
@@ -170,15 +170,15 @@ async function updateInvitado (req, res){
     }
 
     dbManager.Invitado.update(updateInvitado, {where: {idInvitado: idInvitado}}).then(result => {
-        res.status(200).json({
-            message: "Invitado actualizado satisfactoriamente",
-            post: result
-        })
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar el invitado",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar el invitado"
+        });
     })
     
 }

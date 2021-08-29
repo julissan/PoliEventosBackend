@@ -13,8 +13,9 @@ function crearRegistro (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -34,13 +35,17 @@ function crearRegistro (req, res){
          */
         dbManager.Registro.create(newRegistroObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "El registro ya existe"
+                res.send({
+                    status: "400",
+                    response:  "El registro ya existe"
                 });
             }
         );
@@ -58,17 +63,15 @@ async function getRegistros(req, res){
     try {
 
         const registros = await dbManager.Registro.findAll();
-        res.json(
-            {
-                data: registros
-            }
-        );
+        res.send({
+            status: "200",
+            response:  registros
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar registros"
-            }
-        );
+        res.send({
+            status: "500",
+            response:  "Error en servidor al listar registros"
+        });
     }
 }
 
@@ -91,13 +94,15 @@ async function getRegistroById(req, res){
                 }
             }
         );
-        res.json(registro);
+        res.send({
+            status: "200",
+            response: registro
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar registro"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar registro"
+        });
     }
 }
 
@@ -121,11 +126,10 @@ async function deleteRegistroById(req, res){
         );
 
         if(!registro) {
-            res.send(
-                {
-                    message:"El registro no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "El registro no existe"
+            });
         }else{
 
             await Registro.destroy({
@@ -133,21 +137,19 @@ async function deleteRegistroById(req, res){
                   idRegistro: idRegistro
                 }
             });
-    
-            res.send(
-                {
-                    message:"Registro Eliminada"
-                }
-            );
+            res.send({
+                status: "200",
+                response: "Registro Eliminado"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar registro"
-            }
-        );
+
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar registro"
+        });
     }
 
 }
@@ -172,15 +174,16 @@ async function updateRegistro (req, res){
     }
 
     dbManager.Registro.update(updateRegistro, {where: {idRegistro: idRegistro}}).then(result => {
-        res.status(200).json({
-            message: "Registro actualizado satisfactoriamente",
-            post: result
-        })
+
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar el registro",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar el registro"
+        });
     })
     
 }
@@ -198,17 +201,15 @@ async function getRegistrosByEvento(req, res){
                 }
             }
         );
-        res.json(
-            {
-                data: registros
-            }
-        );
+        res.send({
+            status: "200",
+            response: registros
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar registros"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar registros"
+        });
     }
 }
 

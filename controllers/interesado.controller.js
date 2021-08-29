@@ -13,8 +13,9 @@ function crearInteresado (req, res){
      * validar request vacio
      */
     if(!req.body){
-        res.status(400).send({
-            message: "El body se encuentra vacio."
+        res.send({
+            status: "400",
+            response: "El body se encuentra vacio."
         });
         return;
     }else{
@@ -33,13 +34,17 @@ function crearInteresado (req, res){
          */
         dbManager.Interesado.create(newInteresadoObject).then(
             data => {
-                res.send(data);
+                res.send({
+                    status: "200",
+                    response: data
+                });
             }
         ).catch(
             error => {
                 console.log(error);
-                res.status(400).send({
-                    message: "El interesado ya existe"
+                res.send({
+                    status: "400",
+                    response: "El interesado ya existe"
                 });
             }
         );
@@ -57,17 +62,15 @@ async function getInteresados(req, res){
     try {
 
         const interesados = await dbManager.Interesado.findAll();
-        res.json(
-            {
-                data: interesados
-            }
-        );
+        res.send({
+            status: "200",
+            response: interesados
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al listar intereados"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar intereados"
+        });
     }
 }
 
@@ -90,13 +93,15 @@ async function getInteresadoById(req, res){
                 }
             }
         );
-        res.json(interesado);
+        res.send({
+            status: "200",
+            response: interesado
+        });
     } catch (error) {
-        res.status(500).send(
-            {
-                message: "Error en servidor al buscar interesado"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar interesado"
+        });
     }
 }
 
@@ -120,11 +125,10 @@ async function deleteInteresadoById(req, res){
         );
 
         if(!interesado) {
-            res.send(
-                {
-                    message:"El interesado no existe"
-                }
-            );
+            res.send({
+                status: "400",
+                response: "El interesado no existe"
+            });
         }else{
 
             await Interesado.destroy({
@@ -133,20 +137,18 @@ async function deleteInteresadoById(req, res){
                 }
             });
     
-            res.send(
-                {
-                    message:"Interesado Eliminado"
-                }
-            );
+            res.send({
+                status: "200",
+                response: "Interesado Eliminado"
+            });
 
         }
 
     }catch(error){
-        res.status(500).send(
-            {
-                message: "Error en servidor al eliminar interesadp"
-            }
-        );
+        res.send({
+            status: "500",
+            response: "Error en servidor al eliminar interesado"
+        });
     }
 
 }
@@ -170,15 +172,15 @@ async function updateInteresado (req, res){
     }
 
     dbManager.Interesado.update(updateInteresado, {where: {idInteresado: idInteresado}}).then(result => {
-        res.status(200).json({
-            message: "Interesado actualizado satisfactoriamente",
-            post: result
-        })
+        res.send({
+            status: "200",
+            response: result
+        });
     }).catch(error => {
-        res.status(500).json({
-            message: "Hubo un problema al actualizar el interesado",
-            error: result
-        })
+        res.send({
+            status: "500",
+            response: "Hubo un problema al actualizar el interesado"
+        });
     })
     
 }
