@@ -74,9 +74,7 @@ async function getEventos(req, res){
     try {
 
         const eventos = await dbManager.Evento.findAll();
-        res.send({
-            eventos
-        });
+        res.send({eventos}).data;
     } catch (error) {
         res.send({
             status: "500",
