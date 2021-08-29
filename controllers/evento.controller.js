@@ -102,10 +102,7 @@ async function getEventoById(req, res){
                 }
             }
         );
-        res.send({
-            status: "200",
-            response: evento
-        });
+        res.json(evento).data;
     } catch (error) {
         res.send({
             status: "500",
