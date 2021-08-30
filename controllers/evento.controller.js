@@ -191,7 +191,7 @@ async function updateEvento (req, res){
     dbManager.Evento.update(updateEvento, {where: {idEvento: idEvento}}).then(result => {
         res.send({
             status: "200",
-            response: result
+            response: idEvento
         });
     }).catch(error => {
         res.send({
