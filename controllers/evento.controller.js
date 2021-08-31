@@ -531,7 +531,7 @@ exports.deleteEventoById = deleteEventoById;
 
 exports.updateEvento = updateEvento;
 
-exports.getReporte  = getReporte;
+exports.getReporte = getReporte;
 
 exports.getEventoByOrgano  = getEventoByOrgano;
 
