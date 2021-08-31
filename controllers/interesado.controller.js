@@ -29,25 +29,43 @@ function crearInteresado (req, res){
             correoInteresado: req.body.correoInteresado
         }
 
-        /**
-         * insertar nuevo interesado
-         */
-        dbManager.Interesado.create(newInteresadoObject).then(
-            data => {
-                res.send({
-                    status: "200",
-                    response: data.idInteresado
-                });
-            }
-        ).catch(
-            error => {
-                console.log(error);
-                res.send({
-                    status: "400",
-                    response: "El interesado ya existe"
-                });
+        const codigo = req.body.codigoInteresado;
+
+        const interesado = await dbManager.Interesado.findOne(
+            {
+                where: {
+                    codigoInteresado: codigo
+                }
             }
         );
+        if(interesado){
+            res.send({
+                status: "200",
+                response: interesado.idInteresado
+            });
+            
+        }else{
+         
+            /**
+             * insertar nuevo interesado
+             */
+            dbManager.Interesado.create(newInteresadoObject).then(
+                data => {
+                    res.send({
+                        status: "200",
+                        response: data.idInteresado
+                    });
+                }
+            ).catch(
+                error => {
+                    console.log(error);
+                    res.send({
+                        status: "400",
+                        response: "Error al crear interesado"
+                    });
+                }
+            );
+        }
     }
 }
 
