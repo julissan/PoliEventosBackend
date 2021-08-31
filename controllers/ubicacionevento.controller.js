@@ -183,6 +183,38 @@ async function updateUbicacionEvento (req, res){
     
 }
 
+async function getUbicacionEvento(req, res){
+
+    try {
+
+        const UbicacionEventoObject = {
+            idUbicacion: req.body.idUbicacion,
+            idEvento: req.body.idEvento
+        }
+
+        const ubicacionevento = await dbManager.UbicacionEvento.findOne(
+            {
+                where: {
+                    idUbicacion: idUbicacion,
+                    idEvento: idEvento
+                }
+            }
+        );
+        
+        res.send({
+            status: "200",
+            response: "la ubicación ya está asignada al evento"
+        });
+    } catch (error) {
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar ubicacionevento"
+        });
+    }
+}
+
+
+
 exports.crearUbicacionEvento = crearUbicacionEvento;
 
 exports.getUbicacionesEventos = getUbicacionesEventos;
@@ -192,3 +224,5 @@ exports.getUbicacionEventoById = getUbicacionEventoById;
 exports.deleteUbicacionEventoById = deleteUbicacionEventoById;
 
 exports.updateUbicacionEvento = updateUbicacionEvento;
+
+exports.getUbicacionEvento = getUbicacionEvento;

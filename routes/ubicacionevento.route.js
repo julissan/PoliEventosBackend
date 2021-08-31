@@ -23,4 +23,6 @@ router.delete('/:idUbicacionEvento', ubicacionEventoController.deleteUbicacionEv
 
 router.put('/:idUbicacionEvento', ubicacionEventoController.updateUbicacionEvento);
 
+router.post('/buscar/', ubicacionEventoController.getUbicacionEvento);
+
 module.exports = router;
