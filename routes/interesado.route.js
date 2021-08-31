@@ -23,6 +23,6 @@ router.delete('/:idInteresado', interesadoController.deleteInteresadoById);
 
 router.put('/:idInteresado', interesadoController.updateInteresado);
 
-router.get('/codigo/:codigoInteresado', interesadoController.getInteresadoIdByCodigo);
+router.get('/codigo/:codigoInteresado', interesadoController.getInteresadoByCodigo);
 
 module.exports = router;
