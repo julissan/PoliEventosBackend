@@ -187,10 +187,10 @@ async function getUbicacionEvento(req, res){
 
     try {
 
-        const UbicacionEventoObject = {
-            idUbicacion: req.body.idUbicacion,
-            idEvento: req.body.idEvento
-        }
+        
+        const idUbicacion= req.body.idUbicacion;
+        const idEvento= req.body.idEvento;
+        
 
         const ubicacionevento = await dbManager.UbicacionEvento.findOne(
             {
