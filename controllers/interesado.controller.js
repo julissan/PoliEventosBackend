@@ -29,43 +29,25 @@ function crearInteresado (req, res){
             correoInteresado: req.body.correoInteresado
         }
 
-
-        const codigo = req.body.codigoInteresado;
-
-        const interesado = dbManager.Interesado.findOne(
-            {
-                where: {
-                    codigoInteresado: codigo
-                }
+        /**
+         * insertar nuevo interesado
+         */
+        dbManager.Interesado.create(newInteresadoObject).then(
+            data => {
+                res.send({
+                    status: "200",
+                    response: data.idInteresado
+                });
+            }
+        ).catch(
+            error => {
+                console.log(error);
+                res.send({
+                    status: "400",
+                    response: "El interesado ya existe"
+                });
             }
         );
-        if(interesado){
-            res.send({
-                status: "200",
-                response: data.idInteresado
-            });
-        }else{
-            /**
-             * insertar nuevo interesado
-             */
-            dbManager.Interesado.create(newInteresadoObject).then(
-                data => {
-                    res.send({
-                        status: "200",
-                        response: data.idInteresado
-                    });
-                }
-            ).catch(
-                error => {
-                    console.log(error);
-                    res.send({
-                        status: "400",
-                        response: "El interesado ya existe"
-                    });
-                }
-            );
-        }
-        
     }
 }
 
