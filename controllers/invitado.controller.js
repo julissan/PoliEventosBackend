@@ -63,10 +63,7 @@ async function getInvitados(req, res){
     try {
 
         const invitados = await dbManager.Invitado.findAll();
-        res.send({
-            status: "200",
-            response: invitados
-        });
+        res.json(invitados).data;
     } catch (error) {
         res.send({
             status: "500",
@@ -94,10 +91,7 @@ async function getInvitadoById(req, res){
                 }
             }
         );
-        res.send({
-            status: "200",
-            response: invitado
-        });
+        res.json(invitado).data;
     } catch (error) {
         res.send({
             status: "500",

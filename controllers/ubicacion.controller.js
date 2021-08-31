@@ -61,10 +61,7 @@ async function getUbicaciones(req, res){
     try {
 
         const ubicaciones = await dbManager.Ubicacion.findAll();
-        res.send({
-            status: "200",
-            response: ubicaciones
-        });
+        res.json(ubicaciones).data;
     } catch (error) {
         res.send({
             status: "500",
@@ -92,10 +89,7 @@ async function getUbicacionById(req, res){
                 }
             }
         );
-        res.send({
-            status: "200",
-            response: ubicacion
-        });
+        res.json(ubicacion).data;
     } catch (error) {
         res.send({
             status: "500",

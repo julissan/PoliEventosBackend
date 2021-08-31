@@ -303,10 +303,7 @@ async function getEventoByOrgano(req, res){
                 }
             }
         );
-        res.send({
-            status: "200",
-            response: eventos
-        });
+        res.json(eventos).data;
     } catch (error) {
         res.send({
             status: "500",
@@ -328,10 +325,7 @@ async function getEventoByEscuela(req, res){
                 }
             }
         );
-        res.send({
-            status: "200",
-            response: eventos
-        });
+        res.json(eventos).data;
     } catch (error) {
         res.send({
             status: "500",
@@ -353,10 +347,7 @@ async function getEventoByPrograma(req, res){
                 }
             }
         );
-        res.send({
-            status: "200",
-            response: eventos
-        });
+        res.json(eventos).data;
         
     } catch (error) {
         res.send({
@@ -378,10 +369,7 @@ async function getEventoByYear(req, res){
                 }
             }
         );
-        res.send({
-            status: "200",
-            response: eventos
-        });
+        res.json(eventos).data;
     } catch (error) {
         res.send({
             status: "500",
@@ -421,10 +409,7 @@ async function getInvitadosByEvento(req, res){
                 }
             }
         );
-        res.send({
-            status: "200",
-            response: invitados
-        });
+        res.json(invitados).data;
     } catch (error) {
         res.send({
             status: "500",
@@ -465,10 +450,7 @@ async function getInteresadosByEvento(req, res){
             }
         );
 
-        res.send({
-            status: "200",
-            response: interesados
-        });
+        res.json(interesados).data;
     } catch (error) {
         res.send({
             status: "500",
@@ -509,14 +491,32 @@ async function getUbicacionesByEvento(req, res){
             }
         );
 
-        res.send({
-            status: "200",
-            response: ubicaciones
-        });
+        res.json(ubicaciones).data;
     } catch (error) {
         res.send({
             status: "500",
             response:  "Error en servidor al listar ubicaciones"
+        });
+    }
+}
+
+async function getRegistrosByEvento(req, res){
+
+    const {idEvento} = req.params;
+    try {
+
+        const registros = await dbManager.Registro.findAll(
+            {
+                where: {
+                    idEvento: idEvento
+                }
+            }
+        );
+        res.json(registros).data;
+    } catch (error) {
+        res.send({
+            status: "500",
+            response: "Error en servidor al listar registros"
         });
     }
 }
@@ -546,6 +546,8 @@ exports.getInvitadosByEvento = getInvitadosByEvento;
 exports.getInteresadosByEvento = getInteresadosByEvento;
 
 exports.getUbicacionesByEvento = getUbicacionesByEvento;
+
+exports.getRegistrosByEvento = getRegistrosByEvento;
 
 
 

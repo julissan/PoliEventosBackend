@@ -63,10 +63,7 @@ async function getRegistros(req, res){
     try {
 
         const registros = await dbManager.Registro.findAll();
-        res.send({
-            status: "200",
-            response:  registros
-        });
+        res.json(registros).data;
     } catch (error) {
         res.send({
             status: "500",
@@ -94,10 +91,7 @@ async function getRegistroById(req, res){
                 }
             }
         );
-        res.send({
-            status: "200",
-            response: registro
-        });
+        res.json(registro).data;
     } catch (error) {
         res.send({
             status: "500",

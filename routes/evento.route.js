@@ -39,4 +39,6 @@ router.get('/interesados/:idEvento', eventoController.getInteresadosByEvento);
 
 router.get('/ubicaciones/:idEvento', eventoController.getUbicacionesByEvento);
 
+router.get('/registros/:idEvento', eventoController.getRegistrosByEvento);
+
 module.exports = router;
