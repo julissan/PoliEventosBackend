@@ -32,7 +32,7 @@ function crearInteresado (req, res){
 
         const codigo = req.body.codigoInteresado;
 
-        const interesado = await dbManager.Interesado.findOne(
+        const interesado = dbManager.Interesado.findOne(
             {
                 where: {
                     codigoInteresado: codigo
