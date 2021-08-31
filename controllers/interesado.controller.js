@@ -185,6 +185,28 @@ async function updateInteresado (req, res){
     
 }
 
+async function getInteresadoIdByCodigo(req, res){
+
+    try {
+
+        const {codigoInteresado} = req.params;
+
+        const interesado = await dbManager.Interesado.findOne(
+            {
+                where: {
+                    codigoInteresado: codigoInteresado
+                }
+            }
+        );
+        res.json(interesado.idInteresado);
+    } catch (error) {
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar interesado"
+        });
+    }
+}
+
 exports.crearInteresado = crearInteresado;
 
 exports.getInteresados = getInteresados;
@@ -194,3 +216,5 @@ exports.getInteresadoById = getInteresadoById;
 exports.deleteInteresadoById = deleteInteresadoById;
 
 exports.updateInteresado = updateInteresado;
+
+exports.getInteresadoIdByCodigo = getInteresadoIdByCodigo;
