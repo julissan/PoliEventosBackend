@@ -183,6 +183,44 @@ async function updateInvitadoEvento (req, res){
     
 }
 
+async function getInvitadoEvento(req, res){
+
+    try {
+
+        
+        const idInvitado= req.body.idInvitado;
+        const idEvento= req.body.idEvento;
+        
+
+        const invitadoevento = await dbManager.InvitadoEvento.findOne(
+            {
+                where: {
+                    idInvitado: idInvitado,
+                    idEvento: idEvento
+                }
+            }
+        );
+        if(invitadoevento){
+            res.send({
+                status: "200",
+                response: "El invitado ya está asignado al evento"
+            });
+        }else{
+            res.send({
+                status: "400",
+                response: "El invitado no está asignado al evento"
+            });
+        }
+        
+    } catch (error) {
+        res.send({
+            status: "500",
+            response: "Error en servidor al buscar invitadoevento"
+        });
+    }
+}
+
+
 exports.crearInvitadoEvento = crearInvitadoEvento;
 
 exports.getInvitadosEventos = getInvitadosEventos;
@@ -192,4 +230,6 @@ exports.getInvitadoEventoById = getInvitadoEventoById;
 exports.deleteInvitadoEventoById = deleteInvitadoEventoById;
 
 exports.updateInvitadoEvento = updateInvitadoEvento;
+
+exports.getInvitadoEvento = getInvitadoEvento;
 

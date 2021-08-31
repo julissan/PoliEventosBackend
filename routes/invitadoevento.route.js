@@ -23,4 +23,6 @@ router.delete('/:idInvitadoEvento', invitadoEventoController.deleteInvitadoEvent
 
 router.put('/:idInvitadoEvento', invitadoEventoController.updateInvitadoEvento);
 
+router.post('/buscar/', invitadoEventoController.getInvitadoEvento);
+
 module.exports = router;
