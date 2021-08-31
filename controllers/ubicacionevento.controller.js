@@ -200,11 +200,18 @@ async function getUbicacionEvento(req, res){
                 }
             }
         );
+        if(ubicacionevento){
+            res.send({
+                status: "200",
+                response: "la ubicación ya está asignada al evento"
+            });
+        }else{
+            res.send({
+                status: "400",
+                response: "la ubicación no está asignada al evento"
+            });
+        }
         
-        res.send({
-            status: "200",
-            response: "la ubicación ya está asignada al evento"
-        });
     } catch (error) {
         res.send({
             status: "500",
