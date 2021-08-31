@@ -185,7 +185,7 @@ async function updateInteresado (req, res){
     
 }
 
-async function getInteresadoByCodigo(req, res){
+async function getInteresadoIdByCodigo(req, res){
 
     try {
 
@@ -198,7 +198,7 @@ async function getInteresadoByCodigo(req, res){
                 }
             }
         );
-        res.json(interesado).data;
+        res.json(interesado.idInteresado);
     } catch (error) {
         res.send({
             status: "500",
@@ -217,4 +217,4 @@ exports.deleteInteresadoById = deleteInteresadoById;
 
 exports.updateInteresado = updateInteresado;
 
-exports.getInteresadoByCodigo = getInteresadoByCodigo;
+exports.getInteresadoIdByCodigo = getInteresadoIdByCodigo;
